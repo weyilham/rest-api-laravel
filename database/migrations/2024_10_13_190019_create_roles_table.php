@@ -19,11 +19,11 @@ return new class extends Migration
         });
 
         Role::create([
-            'name' => "admin",
+            'name' => "products-list",
         ]);
 
         Role::create([
-            'name' => "user",
+            'name' => "products-create",
         ]);
     }
 

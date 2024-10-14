@@ -25,7 +25,7 @@ Route::get('/', function () {
     ],401);
 })->name('login');
 
-Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index'])->middleware('auth:sanctum', 'ability:read_products');
-Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->middleware('auth:sanctum', 'ability:create_products');
+Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index'])->middleware('auth:sanctum', 'ability:products-list');
+Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->middleware('auth:sanctum', 'ability:products-create');
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'registration']);
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);

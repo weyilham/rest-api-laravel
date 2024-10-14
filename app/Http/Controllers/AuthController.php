@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -66,9 +67,19 @@ class AuthController extends Controller
       }
 
       $user = User::where('email', $request['email'])->firstOrFail();
-      
-      $token = $user->createToken('auth_token')->plainTextToken;
 
+      $role = Role::join('userRoles', 'userRoles.role_id', '=', 'roles.id')
+              ->join('users', 'users.id', '=', 'userRoles.user_id')
+              ->where('users.id', $user->id)
+              ->pluck('roles.name')->toArray();
+
+      // dd($role);
+      if(empty($role)) {
+         $role = "[*]";
+      }
+      
+      $token = $user->createToken('auth_token', $role)->plainTextToken;
+      
       return response()->json([
          'status' => true,
          'statusCode' => 200,
